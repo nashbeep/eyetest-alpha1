@@ -9,7 +9,6 @@ import type { Assessment, AssessmentInput, DashboardSummary, GazePoint } from '@
 import { Route, Switch, Link, useLocation, useParams, Router as WouterRouter } from 'wouter';
 import { Activity, ArrowLeft, ArrowRight, CalendarDays, Check, CheckCircle2, ChevronRight, Clock3, Eye, FileHeart, Heart, Home, Info, LockKeyhole, MapPin, Menu, MousePointer2, Palette, Play, RotateCcw, ShieldCheck, Trash2, Video, X } from 'lucide-react';
 import './index.css';
-import './clarity.css';
 
 const queryClient = new QueryClient();
 const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
