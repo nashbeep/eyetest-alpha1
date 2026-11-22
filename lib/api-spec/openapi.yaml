@@ -1,0 +1,304 @@
+openapi: 3.1.0
+info:
+  # Do not change the title, if the title changes, the import paths will be broken
+  title: Api
+  version: 0.1.0
+  description: API specification
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+  - name: assessments
+    description: Private visual screening history
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      description: Returns server health status
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+  /dashboard/summary:
+    get:
+      operationId: getDashboardSummary
+      tags: [assessments]
+      summary: Get the signed-in user's assessment summary
+      responses:
+        "200":
+          description: Dashboard summary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DashboardSummary"
+        "401":
+          description: Sign in required
+  /assessments:
+    get:
+      operationId: listAssessments
+      tags: [assessments]
+      summary: List the signed-in user's assessment history
+      responses:
+        "200":
+          description: Assessment history
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Assessment"
+        "401":
+          description: Sign in required
+    post:
+      operationId: createAssessment
+      tags: [assessments]
+      summary: Save a completed assessment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AssessmentInput"
+      responses:
+        "201":
+          description: Saved assessment
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Assessment"
+        "400":
+          description: Invalid assessment data
+        "401":
+          description: Sign in required
+    delete:
+      operationId: deleteAssessments
+      tags: [assessments]
+      summary: Delete the signed-in user's assessment history
+      responses:
+        "200":
+          description: Deletion summary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AssessmentDeletion"
+        "401":
+          description: Sign in required
+  /assessments/{assessmentId}:
+    get:
+      operationId: getAssessment
+      tags: [assessments]
+      summary: Get one assessment belonging to the signed-in user
+      parameters:
+        - name: assessmentId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Assessment details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Assessment"
+        "404":
+          description: Assessment not found
+        "401":
+          description: Sign in required
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+        - status
+    GazePoint:
+      type: object
+      properties:
+        timeMs:
+          type: integer
+          minimum: 0
+        targetX:
+          type: number
+          minimum: 0
+          maximum: 1
+        targetY:
+          type: number
+          minimum: 0
+          maximum: 1
+        gazeX:
+          type: ["number", "null"]
+          minimum: 0
+          maximum: 1
+        gazeY:
+          type: ["number", "null"]
+          minimum: 0
+          maximum: 1
+      required: [timeMs, targetX, targetY, gazeX, gazeY]
+    Assessment:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        createdAt:
+          type: string
+          format: date-time
+        trackingScore:
+          type: ["integer", "null"]
+          minimum: 0
+          maximum: 100
+        colorStatus:
+          type: string
+          enum: [no-difficulty-reported, some-difficulty-reported, skipped]
+        colorCorrect:
+          type: integer
+          minimum: 0
+        colorTotal:
+          type: integer
+          minimum: 0
+        leftEyeColorCorrect:
+          type: ["integer", "null"]
+          minimum: 0
+        rightEyeColorCorrect:
+          type: ["integer", "null"]
+          minimum: 0
+        colorProtocol:
+          type: string
+          enum: [blue-yellow-self-check-v1, unrecorded, skipped]
+        displaySettingsReviewed:
+          type: boolean
+        eyeMode:
+          type: string
+          enum: [camera, mouse, skipped]
+        smoothPursuitGain:
+          type: ["number", "null"]
+        meanTrackingError:
+          type: ["number", "null"]
+        jitter:
+          type: ["number", "null"]
+        bilateralDifference:
+          type: ["number", "null"]
+        gazePath:
+          type: array
+          items:
+            $ref: "#/components/schemas/GazePoint"
+      required:
+        - id
+        - createdAt
+        - trackingScore
+        - colorStatus
+        - colorCorrect
+        - colorTotal
+        - leftEyeColorCorrect
+        - rightEyeColorCorrect
+        - colorProtocol
+        - displaySettingsReviewed
+        - eyeMode
+        - smoothPursuitGain
+        - meanTrackingError
+        - jitter
+        - bilateralDifference
+        - gazePath
+    AssessmentInput:
+      type: object
+      properties:
+        trackingScore:
+          type: ["integer", "null"]
+          minimum: 0
+          maximum: 100
+        colorStatus:
+          type: string
+          enum: [no-difficulty-reported, some-difficulty-reported, skipped]
+        colorCorrect:
+          type: integer
+          minimum: 0
+        colorTotal:
+          type: integer
+          minimum: 0
+        leftEyeColorCorrect:
+          type: ["integer", "null"]
+          minimum: 0
+        rightEyeColorCorrect:
+          type: ["integer", "null"]
+          minimum: 0
+        colorProtocol:
+          type: string
+          enum: [blue-yellow-self-check-v1, unrecorded, skipped]
+        displaySettingsReviewed:
+          type: boolean
+        eyeMode:
+          type: string
+          enum: [camera, mouse, skipped]
+        smoothPursuitGain:
+          type: ["number", "null"]
+        meanTrackingError:
+          type: ["number", "null"]
+        jitter:
+          type: ["number", "null"]
+        bilateralDifference:
+          type: ["number", "null"]
+        gazePath:
+          type: array
+          maxItems: 400
+          items:
+            $ref: "#/components/schemas/GazePoint"
+      required:
+        - trackingScore
+        - colorStatus
+        - colorCorrect
+        - colorTotal
+        - leftEyeColorCorrect
+        - rightEyeColorCorrect
+        - colorProtocol
+        - displaySettingsReviewed
+        - eyeMode
+        - smoothPursuitGain
+        - meanTrackingError
+        - jitter
+        - bilateralDifference
+        - gazePath
+    TrendPoint:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date-time
+        trackingScore:
+          type: integer
+          minimum: 0
+          maximum: 100
+      required: [date, trackingScore]
+    DashboardSummary:
+      type: object
+      properties:
+        totalAssessments:
+          type: integer
+          minimum: 0
+        latest:
+          anyOf:
+            - $ref: "#/components/schemas/Assessment"
+            - type: "null"
+        trend:
+          type: array
+          items:
+            $ref: "#/components/schemas/TrendPoint"
+      required: [totalAssessments, latest, trend]
+    AssessmentDeletion:
+      type: object
+      properties:
+        deletedCount:
+          type: integer
+          minimum: 0
+      required: [deletedCount]
+

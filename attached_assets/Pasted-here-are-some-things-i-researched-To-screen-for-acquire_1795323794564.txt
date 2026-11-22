@@ -1,0 +1,22 @@
+here are some things i researched: To screen for acquired color vision deficiency linked to Parkinson’s disease (PD), an app cannot rely on standard red-green Ishihara plates. Instead, it must meet strict criteria designed to catch blue-yellow (tritan) loss and low-saturation contrast deficits caused by retinal dopamine depletion.
+1. Color Axis: Must Target Blue-Yellow (Tritan), Not Just Red-Green
+
+• Why Ishihara fails: Standard Ishihara tests only check inherited red-green defects (L- and M-cones). Parkinson’s primarily impairs S-cones (short-wavelength/blue) and the *blue-yellow pathway* in the retina, so someone with PD can pass a standard Ishihara test easily. [1] (https://acta.tums.ac.ir/index.php/acta/article/view/2652), [2] (https://www.smartoptometry.app/colour-vision/), [3] (https://www.allaboutvision.com/conditions/color-blindness/tritanopia/)
+• Required chromaticity: The test colors must align specifically along the *tritan confusion axis* (such as blue vs. green or yellow vs. violet) rather than protan/deutan axes. [1] (https://www.myoptism.com/post/clinical-guide-to-color-vision-deficiency-types-testing-medications-and-neurologic-causes), [2] (https://www.allaboutvision.com/conditions/color-blindness/tritanopia/)
+
+2. Low Saturation (Desaturated) & Fine Hue Discrimination
+
+• Why high-contrast tests fail: Acquired neurological color loss is typically subtle and progressive, unlike inherited blindness where a cone type is completely absent. [1] (https://chart2020.com/color/deficiencies/), [2] (https://www.myoptism.com/post/clinical-guide-to-color-vision-deficiency-types-testing-medications-and-neurologic-causes)
+• Clinical benchmark: Parkinson’s research relies on fine hue-ordering tests like the Farnsworth-Munsell 100-Hue or the Lanthony Desaturated D-15, which use pale, pastel-like (desaturated) colors. [1] (https://pmc.ncbi.nlm.nih.gov/articles/PMC12011953/)
+• App criteria: The app must test just-noticeable differences (JND)—subtle steps in chromaticity along the tritan axis—rather than bold, high-saturation colors.
+
+3. Monocular Testing & Longitudinal Tracking
+
+• *One eye at a time* : Unlike inherited color blindness (which affects both eyes equally from birth), neurological and Parkinson’s-related color loss can be asymmetric. A valid screening protocol tests each eye separately.
+• Baseline comparison: Because normal aging yellows the eye's lens and naturally reduces blue-yellow sensitivity, a single score is rarely diagnostic on its own. A screening app must track change over time against the user's own baseline. [1] (https://www.opterio.com/learn/color-vision-testing-cpoa), [2] (https://www.myoptism.com/post/clinical-guide-to-color-vision-deficiency-types-testing-medications-and-neurologic-causes), [3] (https://www.smartoptometry.app/colour-vision/), [4] (https://pmc.ncbi.nlm.nih.gov/articles/PMC12011953/)
+
+4. Strict Display & Gamut Controls
+
+• 8-bit vs. 10-bit color depth: Subtle desaturated blue-yellow steps require smooth color gradients. If a phone screen has low bit depth, colors will show "banding," giving away the answer via edge lines instead of color perception.
+• Locking OS color shifts: The app must prompt or enforce *disabling* True Tone, Night Shift, adaptive brightness, and eye-comfort shields, as warming the screen color temperature artificially masks blue-yellow deficits.
+• Luminance noise: Just like clinical tests, the app must *randomize pixel/dot brightness* so the user cannot detect pale blue-yellow targets by slight lightness differences.
